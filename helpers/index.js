@@ -1,4 +1,4 @@
 const HttpError = require("./HttpError");
 const validateContacts = require("./validateContacts");
-
-module.exports = { HttpError, validateContacts };
+const ctrlWrapper = require("./ctrlWrapper");
+module.exports = { HttpError, validateContacts, ctrlWrapper };
