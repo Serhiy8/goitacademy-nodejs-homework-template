@@ -1,11 +1,10 @@
 const { HttpError, validateContacts } = require("../helpers");
 
-const validateBody = () => {
+const validateBody = (message) => {
   const func = (req, res, next) => {
     const { error } = validateContacts(req.body);
-
     if (error) {
-      next(HttpError(400, "missing fields"));
+      next(HttpError(400, message));
     }
     next();
   };
