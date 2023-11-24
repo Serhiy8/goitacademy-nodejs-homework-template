@@ -13,10 +13,10 @@ router.get("/", getAll);
 
 router.get("/:contactId", getById);
 
-router.post("/", validateBody("missing required name field"), add);
+router.post("/", validateBody(), add);
 
 router.delete("/:contactId", removeById);
 
-router.put("/:contactId", validateBody("missing fields"), updateById);
+router.put("/:contactId", validateBody(), updateById);
 
 module.exports = router;
