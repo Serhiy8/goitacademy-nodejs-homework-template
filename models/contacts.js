@@ -26,17 +26,22 @@ contactSchema.post("save", (error, data, next) => {
   next();
 });
 
-const validateContacts = (contacts) => {
-  const schema = Joi.object({
-    name: Joi.string().required(),
-    email: Joi.string().required(),
-    phone: Joi.string().required(),
-    favorite: Joi.boolean(),
-  });
+const addSchema = Joi.object({
+  name: Joi.string().required(),
+  email: Joi.string().required(),
+  phone: Joi.string().required(),
+  favorite: Joi.boolean(),
+});
 
-  return schema.validate(contacts);
-};
+const updateFavoriteSchema = Joi.object({
+  favorite: Joi.boolean().required(),
+});
 
 const Contact = model("contact", contactSchema);
 
-module.exports = { Contact, validateContacts };
+const schemas = {
+  addSchema,
+  updateFavoriteSchema,
+};
+
+module.exports = { Contact, schemas };
