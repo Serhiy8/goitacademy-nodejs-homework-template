@@ -1,5 +1,5 @@
 const { Contact } = require("../models/contacts");
-const { HttpError, ctrlWrapper } = require("../helpers");
+const { HttpError, ctrlWrapper, getContactAndOwner } = require("../helpers");
 
 const getAll = async (req, res) => {
   const { _id: owner } = req.user;
@@ -13,8 +13,8 @@ const getAll = async (req, res) => {
 };
 
 const getById = async (req, res) => {
-  const { contactId } = req.params;
-  const result = await Contact.findById(contactId);
+  const { contactId, owner } = getContactAndOwner(req);
+  const result = await Contact.findOne({ _id: contactId, owner });
   if (!result) {
     throw HttpError(404, "Not found");
   }
@@ -28,8 +28,8 @@ const add = async (req, res) => {
 };
 
 const removeById = async (req, res) => {
-  const { contactId } = req.params;
-  const result = await Contact.findByIdAndDelete(contactId);
+  const { contactId, owner } = getContactAndOwner(req);
+  const result = await Contact.findOneAndDelete({ _id: contactId, owner });
   if (!result) {
     throw HttpError(404, "Not found");
   }
@@ -39,10 +39,12 @@ const removeById = async (req, res) => {
 };
 
 const updateById = async (req, res) => {
-  const { contactId } = req.params;
-  const result = await Contact.findByIdAndUpdate(contactId, req.body, {
-    new: true,
-  });
+  const { contactId, owner } = getContactAndOwner(req);
+  const result = await Contact.findOneAndUpdate(
+    { _id: contactId, owner },
+    req.body,
+    { new: true }
+  );
   if (!result) {
     throw HttpError(404, "Not found");
   }
@@ -50,10 +52,12 @@ const updateById = async (req, res) => {
 };
 
 const updateStatusContact = async (req, res) => {
-  const { contactId } = req.params;
-  const result = await Contact.findByIdAndUpdate(contactId, req.body, {
-    new: true,
-  });
+  const { contactId, owner } = getContactAndOwner(req);
+  const result = await Contact.findOneAndUpdate(
+    { _id: contactId, owner },
+    req.body,
+    { new: true }
+  );
   if (!result) {
     throw HttpError(404, "Not found");
   }
