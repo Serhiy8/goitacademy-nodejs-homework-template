@@ -2,6 +2,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const gravatar = require("gravatar");
 const path = require("path");
+const fs = require("fs/promises");
 const { User } = require("../models/user");
 const { HttpError, ctrlWrapper, imgSizeTransform } = require("../helpers");
 const { SECRET_KEY } = process.env;
@@ -91,6 +92,7 @@ const updateAvatar = async (req, res) => {
   imgSizeTransform(tmpUpload, resultUpload);
 
   const avatarURL = path.join("avatars", filename);
+  fs.unlink(tmpUpload);
 
   await User.findByIdAndUpdate(_id, { avatarURL });
 
