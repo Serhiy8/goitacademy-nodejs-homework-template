@@ -4,7 +4,7 @@ const validateBody = (schema) => {
   const func = (req, res, next) => {
     const { error } = schema.validate(req.body);
     const bodyKeys = Object.keys(req.body);
-    if (bodyKeys.length === 0) {
+    if (bodyKeys.length < 0) {
       return next(HttpError(400, "missing fields"));
     }
 
